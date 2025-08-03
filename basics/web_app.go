@@ -1,4 +1,4 @@
-package main
+package basics // 同じディレクトリ内のパッケージ名はすべて同じである必要がある
 
 import (
 	"fmt"
@@ -9,8 +9,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// main 固定長の文字列を返すだけのシンプルなWebサービス
-func main() {
+// 固定長の文字列を返すだけのシンプルなWebサービス
+func DemoWebApp() {
 	// ①
 	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello World")

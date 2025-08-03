@@ -1,4 +1,4 @@
-package main
+package basics
 
 import (
 	"encoding/json"
@@ -25,7 +25,7 @@ type Book struct {
 // この構造体は型であり、メモリ上に存在するものではない。
 // メモリ上に「インスタンス」を作らなければデータを保存したりできない。
 
-func main() {
+func DemoStruct() {
 
 	// 構造体の利用(フィールドはすべてゼロ値に初期化)
 	var b Book

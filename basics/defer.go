@@ -1,4 +1,4 @@
-package main
+package basics
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func main() {
+func DemoDefer() {
 	fmt.Println("hello world")
 
 	// プログラムの中ではとある処理の後に後片付けが必要な場合がある。
