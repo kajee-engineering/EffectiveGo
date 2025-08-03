@@ -8,8 +8,16 @@ import (
 
 func main() {
 
-	basics.Demo()
 	// basics.Demo()
 
+	var t effective.CarType
+	t = effective.SUV
+	fmt.Println("SUV :", t)
+	fmt.Printf("愛車は%s\n", t)
 
+	var o effective.CarOption
+	o = effective.SunRoof
+	if o&effective.SunRoof != 0 {
+		fmt.Println("サンルーフ付き")
+	}
 }
