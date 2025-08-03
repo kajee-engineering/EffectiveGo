@@ -20,4 +20,9 @@ func main() {
 	if o&effective.SunRoof != 0 {
 		fmt.Println("サンルーフ付き")
 	}
+
+	// error
+	err := effective.New("これはエラーです")
+	fmt.Println(err)
+	fmt.Println(err.Error())
 }
