@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// 標準ライブラリ @errors.go
 func New(text string) error {
 	return &errorString{text}
 }
