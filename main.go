@@ -27,4 +27,5 @@ func main() {
 	fmt.Println(err)
 	fmt.Println(err.Error())
 	fmt.Println(io.EOF) // EOFのerrors.NEW()を使って定義している
+
 }
