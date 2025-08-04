@@ -4,6 +4,7 @@ import (
 	// "MyGolang/basics"
 	"MyGolang/effective"
 	"fmt"
+	"io"
 )
 
 func main() {
@@ -25,4 +26,5 @@ func main() {
 	err := effective.New("これはエラーです")
 	fmt.Println(err)
 	fmt.Println(err.Error())
+	fmt.Println(io.EOF) // EOFのerrors.NEW()を使って定義している
 }
