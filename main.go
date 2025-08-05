@@ -35,7 +35,7 @@ func main() {
 		Aburaage: false,
 		Ebiten:   0,
 	}
-	var u = udon.New2(uo)
+	var u = udon.NewOption(uo)
 	fmt.Println(u)
 
 }
