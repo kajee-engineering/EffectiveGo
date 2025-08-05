@@ -3,6 +3,7 @@ package main
 import (
 	// "MyGolang/basics"
 	"MyGolang/effective"
+	"MyGolang/effective/udon"
 	"fmt"
 	"io"
 )
@@ -27,5 +28,14 @@ func main() {
 	fmt.Println(err)
 	fmt.Println(err.Error())
 	fmt.Println(io.EOF) // EOFのerrors.NEW()を使って定義している
+
+	// udon
+	uo := udon.Option{
+		Men:      udon.Large,
+		Aburaage: false,
+		Ebiten:   0,
+	}
+	var u = udon.New2(uo)
+	fmt.Println(u)
 
 }
