@@ -30,6 +30,9 @@ func main() {
 	fmt.Println(io.EOF) // EOFのerrors.NEW()を使って定義している
 
 	// udon
+	var k = udon.New(udon.Large, false, 0)
+	fmt.Println(k)
+
 	uo := udon.Option{
 		Men:      udon.Large,
 		Aburaage: false,
