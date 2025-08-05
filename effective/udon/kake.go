@@ -65,7 +65,7 @@ type Option struct {
 	Ebiten   uint
 }
 
-func New2(opt Option) *Udon {
+func NewOption(opt Option) *Udon {
 	// ゼロ値に対するデフォルト値処理は関数/メソッド内部で行う
 	// 朝食時間は海老天1本無料
 	if opt.Ebiten == 0 && time.Now().Hour() < 10 {
