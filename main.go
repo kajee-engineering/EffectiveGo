@@ -38,7 +38,8 @@ func main() {
 		Aburaage: false,
 		Ebiten:   0,
 	}
-	var u = udon.NewOption(uo)
+	u := udon.NewOption(uo)
 	fmt.Println(u)
 
+	udon.UseFluentInterfasce()
 }

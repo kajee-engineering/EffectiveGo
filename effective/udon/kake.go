@@ -1,6 +1,9 @@
 package udon
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // GoにはJavaのオーバーロードやPythonのキーワード引数がない
 // 以下は、うどん屋のオプションを題材にオプション引数を実現する方法
@@ -76,4 +79,43 @@ func NewOption(opt Option) *Udon {
 		aburaage: opt.Aburaage,
 		ebiten:   opt.Ebiten,
 	}
+}
+
+type fluentOpt struct {
+	men      Portion
+	aburaage bool
+	ebiten   uint
+}
+
+func Kake3th(p Portion) *fluentOpt {
+	// デフォルトはコンストラクタ関数で設定
+	// 必須オプションはここに付与可能
+	return &fluentOpt{
+		men:      p,
+		aburaage: false,
+		ebiten:   1,
+	}
+}
+
+func (o *fluentOpt) Aburaage() *fluentOpt {
+	o.aburaage = true
+	return o
+}
+
+func (o *fluentOpt) Ebiten(n uint) *fluentOpt {
+	o.ebiten = n
+	return o
+}
+
+func (o *fluentOpt) Order() *Udon {
+	return &Udon{
+		men:      o.men,
+		aburaage: o.aburaage,
+		ebiten:   o.ebiten,
+	}
+}
+
+func UseFluentInterfasce() {
+	oomoriKitune := Kake3th(Large).Aburaage().Order()
+	fmt.Println(oomoriKitune)
 }
