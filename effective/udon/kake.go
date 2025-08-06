@@ -37,10 +37,9 @@ func AllParam(p Portion, aburaage bool, ebiten uint) *Udon {
 var tempuraUdon = AllParam(Regular, false, 2)
 
 // 次のコードは、よく利用されるバリエーションを関数として提供しています。
-// ただしバリエーションの組み合わせが爆発するのを抑えるため、量に関するオプションは引数に残している
 func New2th(p Portion) *Udon {
 	return &Udon{
-		men:      p,
+		men:      p, // ただしバリエーションの組み合わせが爆発するのを抑えるため、量に関するオプションは引数に残している
 		aburaage: false,
 		ebiten:   0,
 	}
