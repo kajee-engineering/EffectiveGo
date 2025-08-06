@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// GoにはJavaのオーバーロードやPythonのキーワード引数がない
+// GoにはJavaのオーバーロードやPythonのキーワード引数といったオプション引数がない
 // 以下は、うどん屋のオプションを題材にオプション引数を実現する方法
 
 type Portion int
@@ -23,7 +23,7 @@ type Udon struct {
 }
 
 // めんの量、油揚げ、海老天の有無でインスタンス作成
-func New(p Portion, aburaage bool, ebiten uint) *Udon {
+func AllParam(p Portion, aburaage bool, ebiten uint) *Udon {
 	return &Udon{
 		men:      p,
 		aburaage: aburaage,
@@ -31,12 +31,14 @@ func New(p Portion, aburaage bool, ebiten uint) *Udon {
 	}
 }
 
+// 上のコードは全てのパラメタを渡さなければならないが、これを以下に使いやすくするかが本章のゴール
+
 // 海老天2本入りの大盛りうどん
-var tempuraUdon = New(Regular, false, 2)
+var tempuraUdon = AllParam(Regular, false, 2)
 
 // 次のコードは、よく利用されるバリエーションを関数として提供しています。
-// ただしバリエーションの組み合わせが爆発するのを抑えるため、量に関するオプションは引数に残している。
-func NewKake(p Portion) *Udon {
+// ただしバリエーションの組み合わせが爆発するのを抑えるため、量に関するオプションは引数に残している
+func New2th(p Portion) *Udon {
 	return &Udon{
 		men:      p,
 		aburaage: false,
@@ -62,13 +64,14 @@ func NewTempura(p Portion) *Udon {
 
 // これ以外はよく使う用途別にラッパー関数を複数用意する方法がある。例えばos.Create()がこれに該当する。
 
+// 構造体を利用したオプション引数
 type Option struct {
 	Men      Portion
 	Aburaage bool
 	Ebiten   uint
 }
 
-func NewOption(opt Option) *Udon {
+func New3th(opt Option) *Udon {
 	// ゼロ値に対するデフォルト値処理は関数/メソッド内部で行う
 	// 朝食時間は海老天1本無料
 	if opt.Ebiten == 0 && time.Now().Hour() < 10 {
@@ -81,6 +84,7 @@ func NewOption(opt Option) *Udon {
 	}
 }
 
+// ビルダーを利用したオプション引数
 type fluentOpt struct {
 	men      Portion
 	aburaage bool
@@ -116,6 +120,7 @@ func (o *fluentOpt) Order() *Udon {
 }
 
 func UseFluentInterfasce() {
+	// 複数のオブジェクトの生成パターンを分離して段階的に構成するデザインパターン(=ビルダー)
 	oomoriKitune := Kake3th(Large).Aburaage().Order()
 	fmt.Println(oomoriKitune)
 }

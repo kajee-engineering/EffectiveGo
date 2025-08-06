@@ -30,7 +30,7 @@ func main() {
 	fmt.Println(io.EOF) // EOFのerrors.NEW()を使って定義している
 
 	// udon
-	var k = udon.New(udon.Large, false, 0)
+	var k = udon.AllParam(udon.Large, false, 0)
 	fmt.Println(k)
 
 	uo := udon.Option{
@@ -38,7 +38,7 @@ func main() {
 		Aburaage: false,
 		Ebiten:   0,
 	}
-	u := udon.NewOption(uo)
+	u := udon.New3th(uo)
 	fmt.Println(u)
 
 	udon.UseFluentInterfasce()
