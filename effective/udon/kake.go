@@ -130,7 +130,7 @@ type OptFunc func(r *Udon) // 関数型を定義
 func New4th(opts ...OptFunc) *Udon {
 	r := &Udon{}
 	for _, opt := range opts {
-		opt(r)
+		opt(r) // ループ1回目は opt(r) == func(r *Udon) { r.men = p } を実行
 	}
 	return r
 }
@@ -148,6 +148,12 @@ func OptEbiten(u uint) OptFunc {
 }
 
 func UseFuncOption() {
+	// 引数を評価してからNew4th()呼び出す
+	// New4th(
+	//        func(r *Udon) { r.men = p },
+	//        func(r *Udon) { r.aburaage = true } ,
+	//        func(r *Udon) { r.ebiten = u },
+	//       )
 	tokuseiUdon := New4th(
 		OptMen(Large),
 		OptAburaage(),
