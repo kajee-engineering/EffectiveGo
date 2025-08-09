@@ -42,4 +42,6 @@ func main() {
 	fmt.Println(u)
 
 	udon.UseFluentInterfasce()
+	result := udon.UseFuncOption
+	fmt.Println(result)
 }

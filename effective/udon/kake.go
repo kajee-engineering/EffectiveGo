@@ -123,3 +123,35 @@ func UseFluentInterfasce() {
 	oomoriKitune := Kake3th(Large).Aburaage().Order()
 	fmt.Println(oomoriKitune)
 }
+
+// Functional Optionパターンを使ったオプション引数
+type OptFunc func(r *Udon) // 関数型を定義
+
+func New4th(opts ...OptFunc) *Udon {
+	r := &Udon{}
+	for _, opt := range opts {
+		opt(r)
+	}
+	return r
+}
+
+func OptMen(p Portion) OptFunc {
+	return func(r *Udon) { r.men = p }
+}
+
+func OptAburaage() OptFunc {
+	return func(r *Udon) { r.aburaage = true }
+}
+
+func OptEbiten(u uint) OptFunc {
+	return func(r *Udon) { r.ebiten = u }
+}
+
+func UseFuncOption() {
+	tokuseiUdon := New4th(
+		OptMen(Large),
+		OptAburaage(),
+		OptEbiten(3),
+	)
+	fmt.Println(tokuseiUdon)
+}
