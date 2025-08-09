@@ -32,6 +32,7 @@ func AllParam(p Portion, aburaage bool, ebiten uint) *Udon {
 }
 
 // 上のコードは全てのパラメタを渡さなければならないが、これを以下に使いやすくするかが本章のゴール
+// おすすめはコード量が少ない構造体。必要に応じてビルダーパターン、Functional Optionパターンを実装する。
 
 // 海老天2本入りの大盛りうどん
 var tempuraUdon = AllParam(Regular, false, 2)
