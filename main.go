@@ -4,8 +4,10 @@ import (
 	// "MyGolang/basics"
 	"MyGolang/effective"
 	"MyGolang/effective/udon"
+	"flag"
 	"fmt"
 	"io"
+	"log"
 )
 
 func main() {
@@ -44,4 +46,21 @@ func main() {
 	udon.UseFluentInterfasce()
 	result := udon.UseFuncOption
 	fmt.Println(result)
+
+	//
+	// 1.7 プログラムを制御する引数
+	//
+
+	// コマンドライン引数
+	flag.Parse()
+	log.Println(*FlagStr)
+	log.Println(*FlagInt)
+	log.Println(flag.Args())
+
 }
+
+var (
+	// コマンドライン引数を定義
+	FlagStr = flag.String("string", "default", "文字列フラグ")
+	FlagInt = flag.Int("int", -1, "数値フラグ")
+)
