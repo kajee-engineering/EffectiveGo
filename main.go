@@ -52,8 +52,9 @@ func main() {
 	//
 
 	// コマンドライン引数
+	fmt.Println("---------")
 	flag.Parse()
-	log.Println(*FlagStr)
+	log.Println(*FlagStr) // コンソールの末尾に表示される
 	log.Println(*FlagInt)
 	log.Println(flag.Args())
 
