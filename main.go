@@ -127,6 +127,40 @@ func main() {
 	// タイムゾーンの情報には夏時間の開始日時など、人が年毎に決めている情報も含まれるため、OSの更新をおこなった上でOSの情報を参照するのがベスト
 	// Go1.15からはタイムゾーン情報をアプリケーションにバンドルできるようになったので、アプリケーションをこまめに最新の処理系でビルドし直せる場合はこの方法でもよい。
 	// _ "time/tzdata"
+
+	// 日時とは別に時間を表す型はtime.Durationで提供されている
+	// time.Durationの作成方法はいくつかある
+	// 例えばtime.Time同士の差をSub()メソッドで計算
+	// 例えばtime.Secondなどの既存の時間のインスタンスの積により作成
+
+	// 5分を作成
+	// Nanosecond, Millisecond, Second, Minute, Hourが定義済み
+	fiveMinutes := 5 * time.Minute
+	fmt.Println(fiveMinutes) // 5m0s
+
+	// intとは形違いで直接演算できないので、即値との計算以外はtime.Durationへの明示的なキャストが必要
+	// キャストがないと次のエラーが発生する
+	// invalid operation: secondes * time.Second (mismatched types int and time.Duration)
+	var secondes int = 10
+	tenSeconds := time.Duration(secondes) * time.Second
+	//tenSeconds := secondes * time.Second // キャストしない
+	fmt.Println(tenSeconds)
+
+	// Timeの演算でDuration作成
+	past = time.Date(1955, time.November, 12, 6, 38, 0, 0, time.UTC)
+	dur := time.Now().Sub(past)
+	fmt.Println(dur)
+
+	// Truncate()メソッドを用いて5分単位で切り詰めることもできる
+	// 1時間にまとめてバッチで読み込むファイル名を取得する場合
+	filepath := time.Now().Truncate(time.Hour).Format("20060102150405.json")
+	fmt.Println(filepath)
+	// 5分後と5分前の時刻
+	fiveMinutesAfter := time.Now().Add(fiveMinutes)
+	fmt.Println(fiveMinutesAfter)
+	fiveMinutesBefore := time.Now().Add(-fiveMinutes) // time.Time型はAdd()かAddDate()しか持っていないのでマイナスの値をAdd()に渡す
+	fmt.Println(fiveMinutesBefore)
+
 }
 
 var (
