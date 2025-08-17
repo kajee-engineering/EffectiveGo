@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"strings"
 )
 
 func main() {
@@ -78,6 +79,30 @@ func main() {
 	fmt.Println(len(s2))
 	fmt.Println(cap(s2))
 
+	// 1.9 文字列の結合方法
+	src := []string{"Black", "To", "The", "Future", "Part", "III"}
+	var title string
+	for i, word := range src {
+		if i != 0 {
+			title += " "
+		}
+		title += word
+	}
+	log.Println(title)
+	// Goの文字列は不変な文字列のため文字列を追加する、または一部を取り出す場合は新しい文字列が生成されてメモリが確保される。
+	// ループで1つ1つ結合すると、中間の文字列が全てメモリ上に一度は確保されるので、速度が遅くなる。
+
+	// 大量に文字列を結合するときはstrings.Builderを使うのが良い
+	// 結合後のサイズがわかっている場合はGrowを使うこともできる
+	var builder strings.Builder
+	builder.Grow(100) // 最大100文字以下と仮定できる場合
+	for i, word := range src {
+		if i != 0 {
+			builder.WriteByte(' ')
+		}
+		builder.WriteString(word)
+	}
+	log.Println(builder.String())
 }
 
 var (
