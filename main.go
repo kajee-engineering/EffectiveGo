@@ -9,6 +9,7 @@ import (
 	"io"
 	"log"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -103,6 +104,29 @@ func main() {
 		builder.WriteString(word)
 	}
 	log.Println(builder.String())
+
+	// 1.10 日時の取り扱い
+	// Time, Date, DateTimeが別々で提供されている言語もあるが、Goは1つの型で全て扱う
+	// 現在時刻のtime.Timeインスタンス取得
+	now := time.Now()
+
+	// 指定日時のtime.Timeインスタンス取得
+	tz, _ := time.LoadLocation("America/Los_Angeles")
+	future := time.Date(2015, time.October, 21, 7, 28, 0, 0, tz)
+
+	fmt.Println(now.String())
+	fmt.Println(future.Format(time.RFC3339Nano))
+
+	// 定義済みのローカルタイムゾーン
+	now = time.Date(1985, time.October, 26, 9, 0, 0, 0, tz)
+	fmt.Println(now.String())
+
+	// 定義済みのUTCローカルタイムゾーン
+	past := time.Date(1955, time.November, 12, 6, 38, 0, 0, tz)
+	fmt.Println(past.String())
+	// タイムゾーンの情報には夏時間の開始日時など、人が年毎に決めている情報も含まれるため、OSの更新をおこなった上でOSの情報を参照するのがベスト
+	// Go1.15からはタイムゾーン情報をアプリケーションにバンドルできるようになったので、アプリケーションをこまめに最新の処理系でビルドし直せる場合はこの方法でもよい。
+	// _ "time/tzdata"
 }
 
 var (
