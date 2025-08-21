@@ -161,6 +161,7 @@ func main() {
 	fiveMinutesBefore := time.Now().Add(-fiveMinutes) // time.Time型はAdd()かAddDate()しか持っていないのでマイナスの値をAdd()に渡す
 	fmt.Println(fiveMinutesBefore)
 
+	// テストコミット
 }
 
 var (
