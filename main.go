@@ -161,7 +161,19 @@ func main() {
 	fiveMinutesBefore := time.Now().Add(-fiveMinutes) // time.Time型はAdd()かAddDate()しか持っていないのでマイナスの値をAdd()に渡す
 	fmt.Println(fiveMinutesBefore)
 
-	// TODO 削除！　//テストコミット
+	// 3秒停止
+	fmt.Println("3秒スリープスタート")
+	time.Sleep(3 * time.Second) // 現在のゴルーチンを停止する
+	fmt.Println("3秒スリープ完了")
+
+	// 10秒間待つ
+	// selectを使って他の処理の完了待ちをするのに便利 @see 378ページ
+	fmt.Println("10秒停止スタート")
+	timer := time.NewTimer(10 * time.Second) // Timerのポインタを受け取る
+	defer timer.Stop()                       // Timerのリソースを確実に解放するためにdeferを使う
+	<-timer.C                                // タイマーのチャネルから通知を受け取る
+	fmt.Println("10秒停止完了")
+
 }
 
 var (
