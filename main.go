@@ -176,14 +176,11 @@ func main() {
 
 	// 定義型のレシーバにアプリケーション固有のドメインロジックを宣言することで、関心事を分離したり、凝集度を高めることができる。
 	// これはコードの見通しがよくなることに加えて、ユニットテストが書きやすくなる効果もある。
-	// サンプルコード
-	order := order{
-		items: []item{
-			{"apple", 100, 2},
-			{"orange", 80, 3},
-		},
-	}
-	fmt.Println("total price is :", order.totalAmount())
+	c1 := consumer{"taro", true}
+	c2 := consumer{"suzuki", false}
+	cs := consumers{c1, c2}
+	fmt.Println(cs.activeConsumer()) // 例えばレスポンスの顧客一覧から有効な顧客を抽出する問い合わせをレシーバに移譲できる。
+	// 今回であれば、cunsumers型を定義して、ロジックをレシーバとして実装する方法がおすすめ。
 
 }
 
@@ -193,20 +190,24 @@ var (
 	FlagInt = flag.Int("int", -1, "数値フラグ")
 )
 
-type order struct {
-	items []item
-}
-type item struct {
-	name  string
-	price int
-	qty   int
-}
+// 2.3.1 スライスへの型定義
+type consumers []consumer
 
-func (o *order) totalAmount() int {
-	total := 0
-	for _, item := range o.items {
-		total += item.price * item.qty
+func (c consumers) activeConsumer() consumers {
+	resp := make([]consumer, 0, len(c))
+	for _, v := range c {
+		if v.activeFlg() {
+			resp = append(resp, v)
+		}
 	}
-	return total
+	return resp
+}
 
+type consumer struct {
+	name     string
+	isActive bool
+}
+
+func (c *consumer) activeFlg() bool {
+	return c.isActive
 }
