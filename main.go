@@ -174,6 +174,17 @@ func main() {
 	<-timer.C                                // タイマーのチャネルから通知を受け取る
 	fmt.Println("10秒停止完了")
 
+	// 定義型のレシーバにアプリケーション固有のドメインロジックを宣言することで、関心事を分離したり、凝集度を高めることができる。
+	// これはコードの見通しがよくなることに加えて、ユニットテストが書きやすくなる効果もある。
+	// サンプルコード
+	order := order{
+		items: []item{
+			{"apple", 100, 2},
+			{"orange", 80, 3},
+		},
+	}
+	fmt.Println("total price is :", order.totalAmount())
+
 }
 
 var (
@@ -181,3 +192,21 @@ var (
 	FlagStr = flag.String("string", "default", "文字列フラグ")
 	FlagInt = flag.Int("int", -1, "数値フラグ")
 )
+
+type order struct {
+	items []item
+}
+type item struct {
+	name  string
+	price int
+	qty   int
+}
+
+func (o *order) totalAmount() int {
+	total := 0
+	for _, item := range o.items {
+		total += item.price * item.qty
+	}
+	return total
+
+}
