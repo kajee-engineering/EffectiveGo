@@ -181,7 +181,8 @@ func main() {
 	cs := consumers{c1, c2}
 	fmt.Println(cs.activeConsumer()) // 例えばレスポンスの顧客一覧から有効な顧客を抽出する問い合わせをレシーバに移譲できる。
 	// 今回であれば、cunsumers型を定義して、ロジックをレシーバとして実装する方法がおすすめ。
-
+	// この時、戻り値もcunsmers型にする実装がおすすめ。なぜならチェーンメソッドで複数のコレクション操作を記述できるため。
+	// consumers := cs.activeConsumer().expires(time.Now()).SortedByExpiredAt() // 有効なユーザから期限が切れた一覧をソートして受け取る
 }
 
 var (
@@ -189,6 +190,21 @@ var (
 	FlagStr = flag.String("string", "default", "文字列フラグ")
 	FlagInt = flag.Int("int", -1, "数値フラグ")
 )
+
+// 場合によっては上記のチェーンメソッドを関数として宣言して、実装をカプセル化できる。
+func (c consumers) RequiredFollows() consumers {
+	return c.activeConsumer().expires(time.Now()).SortedByExpiredAt()
+}
+
+func (c consumers) expires(t time.Time) consumers {
+	// 引数tで有効期限が失効するユーザに絞り込む処理を記述する
+	return c
+}
+
+func (c consumers) SortedByExpiredAt() consumers {
+	// 有効期限をキーに昇順でソートする
+	return c
+}
 
 // 2.3.1 スライスへの型定義
 type consumers []consumer
