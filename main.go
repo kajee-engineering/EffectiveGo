@@ -4,6 +4,7 @@ import (
 	// "MyGolang/basics"
 	"MyGolang/effective"
 	"MyGolang/effective/udon"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -196,17 +197,30 @@ func main() {
 	// 例: シーズンに対応した受発注サービス
 
 	// 2.5 機密情報を扱うフィールドを定義して出力書式をカスタマイズ
+	c := ConfidentialCustomer{
+		CustomerID: 1,
+		CreditCard: "4111-1111-1111-1111",
+	}
+	fmt.Println(c)
+	fmt.Printf("%v\n", c)
+	fmt.Printf("%+v\n", c)
+	fmt.Printf("%#v\n", c)
+
+	bytes, _ := json.Marshal(c)
+	fmt.Println("JSON: ", string(bytes))
 
 }
 
 // 以下の2つのinterfaceを拡張することで、例えばクレジットカードのように注意深く扱う情報のログ出力をマスキングできる
-type Stringer interface {
-	String() string
-}
-type GoStringer interface {
-	GoString() string
-}
-
+// type Stringer interface { // fmtモジュールのPrintなどで、値を出力する際に呼び出される。
+//
+//		String() string
+//	}
+//
+// type GoStringer interface { // fmtモジュールのPrintなどで、値を出力する際に呼び出される。
+//
+//		GoString() string
+//	}
 type ConfidentialCustomer struct {
 	CustomerID int64
 	CreditCard CreditCard
