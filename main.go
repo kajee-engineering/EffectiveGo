@@ -183,6 +183,35 @@ func main() {
 	// 今回であれば、cunsumers型を定義して、ロジックをレシーバとして実装する方法がおすすめ。
 	// この時、戻り値もcunsmers型にする実装がおすすめ。なぜならチェーンメソッドで複数のコレクション操作を記述できるため。
 	// consumers := cs.activeConsumer().expires(time.Now()).SortedByExpiredAt() // 有効なユーザから期限が切れた一覧をソートして受け取る
+
+	// 2.3.2 値への型定義
+	// SKU(Stock Keeping Unit, 在庫管理単位のこと)の例にする
+	// 具体的にはT01230101は最初の5桁が商品コード(T0123)、次の2桁がサイズ、次の2桁がカラーを示す
+	// これを素直に実装すると低レイヤーのコードが入り込むことになる
+	// skuCD, _ := r.URL.Query()["skuCode"]
+	// itemCD, sizeCD, colerCD := skuCD[0:5], skuCD[5:7], skuCD[7:9]
+	// 上記のコードを呼び出し元で整合性をチェックする必要が出てくるため少々厄介
+
+}
+
+// 少し面倒だが、次のように実装しておくと利用方法を一目で理解しやすくなる
+type SKUcode string
+
+func (c SKUcode) Invalid() bool {
+	// 桁数や利用可能文字のチェックを行う
+	return true
+}
+
+func (c SKUcode) ItemCD() string {
+	return string(c)[0:5]
+}
+
+func (c SKUcode) SizeCD() string {
+	return string(c)[5:7]
+}
+
+func (c SKUcode) ColerCD() string {
+	return string(c)[7:9]
 }
 
 var (
