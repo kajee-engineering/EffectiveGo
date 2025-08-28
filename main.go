@@ -226,10 +226,10 @@ type ConfidentialCustomer struct {
 	CreditCard CreditCard
 }
 
-type CreditCard string
+type CreditCard string // ユーザ定義型
 
-func (c CreditCard) String() string {
-	return "xxxx-xxx-xxxx-xxxx"
+func (c CreditCard) String() string { // ユーザ定義型(CreditCard)にString()インターフェースを実装して、
+	return "xxxx-xxx-xxxx-xxxx" // 機密情報をマスキングしている。
 }
 func (c CreditCard) GoString() string {
 	return "xxxx-xxx-xxxx-xxxx"
