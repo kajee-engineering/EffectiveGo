@@ -195,6 +195,30 @@ func main() {
 	// 2.3.3 列挙への型定義
 	// 例: シーズンに対応した受発注サービス
 
+	// 2.5 機密情報を扱うフィールドを定義して出力書式をカスタマイズ
+
+}
+
+// 以下の2つのinterfaceを拡張することで、例えばクレジットカードのように注意深く扱う情報のログ出力をマスキングできる
+type Stringer interface {
+	String() string
+}
+type GoStringer interface {
+	GoString() string
+}
+
+type ConfidentialCustomer struct {
+	CustomerID int64
+	CreditCard CreditCard
+}
+
+type CreditCard string
+
+func (c CreditCard) String() string {
+	return "xxxx-xxx-xxxx-xxxx"
+}
+func (c CreditCard) GoString() string {
+	return "xxxx-xxx-xxxx-xxxx"
 }
 
 type season int
