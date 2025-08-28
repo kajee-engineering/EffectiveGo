@@ -192,6 +192,25 @@ func main() {
 	// itemCD, sizeCD, colerCD := skuCD[0:5], skuCD[5:7], skuCD[7:9]
 	// 上記のコードを呼び出し元で整合性をチェックする必要が出てくるため少々厄介
 
+	// 2.3.3 列挙への型定義
+	// 例: シーズンに対応した受発注サービス
+
+}
+
+type season int
+
+const (
+	peak   season = iota + 1 // 繁忙期
+	normal                   // 通常
+	off                      // 閑散期
+)
+
+// 例えば季節変動が理由で料金が異なる場合の要件はよく出てくる
+func (s season) price(price float64) season {
+	if s == peak {
+		return s + 200
+	}
+	return s
 }
 
 // 少し面倒だが、次のように実装しておくと利用方法を一目で理解しやすくなる
