@@ -12,6 +12,8 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/gen2brain/beeep"
 )
 
 func main() {
@@ -165,15 +167,17 @@ func main() {
 
 	// 3秒停止
 	fmt.Println("3秒スリープスタート")
-	time.Sleep(3 * time.Second) // 現在のゴルーチンを停止する
+	//time.Sleep(3 * time.Second) // 現在のゴルーチンを停止する
+	time.Sleep(1 * time.Second) //
 	fmt.Println("3秒スリープ完了")
 
 	// 10秒間待つ
 	// selectを使って他の処理の完了待ちをするのに便利 @see 378ページ
 	fmt.Println("10秒停止スタート")
-	timer := time.NewTimer(10 * time.Second) // Timerのポインタを受け取る
-	defer timer.Stop()                       // Timerのリソースを確実に解放するためにdeferを使う
-	<-timer.C                                // タイマーのチャネルから通知を受け取る
+	//timer := time.NewTimer(10 * time.Second) // Timerのポインタを受け取る
+	timer := time.NewTimer(1 * time.Second) // Timerのポインタを受け取る
+	defer timer.Stop()                      // Timerのリソースを確実に解放するためにdeferを使う
+	<-timer.C                               // タイマーのチャネルから通知を受け取る
 	fmt.Println("10秒停止完了")
 
 	// 定義型のレシーバにアプリケーション固有のドメインロジックを宣言することで、関心事を分離したり、凝集度を高めることができる。
@@ -210,23 +214,36 @@ func main() {
 	bytes, _ := json.Marshal(c)
 	fmt.Println("JSON: ", string(bytes))
 
-	var warn Warning
-
-	warn = &ConsoleWarning{}
+	var warn Warning         // Showメソッドを持つインスタンスはなんでも格納できる変数
+	warn = &ConsoleWarning{} // インタフェースの実態にはShowメソッドを持つ構造体のポインタが格納される
 	warn.Show("Hello World to console")
+	warn.Pprint("Hello World to console")
 
+	// warn = &DesktopWarning{} // インタフェースの実態にはShowメソッドを持つ構造体のポインタが格納される
+	// warn.Show("Hello World to desktop")
 }
 
 // 4-1 インタフェース
-
 type Warning interface {
+	// メソッドのリストを記述する
 	Show(message string)
+	Pprint(message string)
 }
 
 type ConsoleWarning struct{}
 
+// Warningインタフェースの二つのメソッドを満たすとインタフェースを実装したことになる。つまりJavaのように宣言は不要なので、シンプルなコードになる。
 func (c ConsoleWarning) Show(message string) {
 	fmt.Fprintf(os.Stderr, "[%s]: %s\n", os.Args[0], message)
+}
+func (c ConsoleWarning) Pprint(message string) {
+	fmt.Println(message)
+}
+
+type DesktopWarning struct{}
+
+func (d DesktopWarning) Show(message string) {
+	beeep.Alert(os.Args[0], message, "")
 }
 
 // 以下の2つのinterfaceを拡張することで、例えばクレジットカードのように注意深く扱う情報のログ出力をマスキングできる
