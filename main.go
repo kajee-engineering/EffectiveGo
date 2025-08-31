@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 	"strings"
 	"time"
 )
@@ -209,6 +210,13 @@ func main() {
 	bytes, _ := json.Marshal(c)
 	fmt.Println("JSON: ", string(bytes))
 
+}
+
+// 4-1 インタフェース
+type ConsoleWarning struct{}
+
+func (c ConsoleWarning) Show(message string) {
+	fmt.Fprintf(os.Stderr, "[%s]: %s\n", os.Args[0], message)
 }
 
 // 以下の2つのinterfaceを拡張することで、例えばクレジットカードのように注意深く扱う情報のログ出力をマスキングできる
