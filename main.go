@@ -210,9 +210,19 @@ func main() {
 	bytes, _ := json.Marshal(c)
 	fmt.Println("JSON: ", string(bytes))
 
+	var warn Warning
+
+	warn = &ConsoleWarning{}
+	warn.Show("Hello World to console")
+
 }
 
 // 4-1 インタフェース
+
+type Warning interface {
+	Show(message string)
+}
+
 type ConsoleWarning struct{}
 
 func (c ConsoleWarning) Show(message string) {
